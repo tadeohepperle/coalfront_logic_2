@@ -1,4 +1,4 @@
-enum CoalfrontResource {
+enum IngameResource {
   none,
   wood,
   people,

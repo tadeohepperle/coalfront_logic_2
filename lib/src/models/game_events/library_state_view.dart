@@ -8,7 +8,7 @@ class LibraryStateView {
     required this.hapsLeft,
   });
 
-  LibraryStateView.fromState(LibraryState libraryState)
-      : cardsLeft = libraryState.cards.length,
-        hapsLeft = libraryState.haps.length;
+  LibraryStateView.fromLibraryState(LibraryState libraryState)
+      : cardsLeft = libraryState.cardInstanceIds.length,
+        hapsLeft = libraryState.hapInstanceIds.length;
 }

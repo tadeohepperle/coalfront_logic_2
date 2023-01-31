@@ -1,5 +1,4 @@
 import '../common/ids.dart';
-import 'ingame/coalfront_card_instance.dart';
 
 /// sealed
 abstract class GamePhase {}
@@ -12,6 +11,8 @@ class RunningPhase extends GamePhase {
   final TurnPhase turnPhase;
 
   RunningPhase(this.turnPhase);
+
+  factory RunningPhase.initial() => RunningPhase(TurnPhase.initial());
 }
 
 /// where the game is over and a winner is determined
@@ -25,12 +26,15 @@ class OverPhase extends GamePhase {
 }
 
 /// sealed
-abstract class TurnPhase {}
+abstract class TurnPhase {
+  static TurnPhase initial() => EventPhase();
+}
 
+/// todo: add event card
 class EventPhase extends TurnPhase {}
 
 class DraftPhase extends TurnPhase {
-  Map<UserId, List<CoalfrontCardInstance>> pickOptions;
+  Map<UserId, List<CardInstanceId>> pickOptions;
   Map<UserId, CardInstanceId> picksMade;
   DraftPhase({
     required this.pickOptions,

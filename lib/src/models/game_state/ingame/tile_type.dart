@@ -1,4 +1,4 @@
-enum CoalfrontTileType {
+enum TileType {
   unknown,
   grass,
   forest,
@@ -8,7 +8,7 @@ enum CoalfrontTileType {
   outOfMap;
 
   @pragma("vm:prefer-inline")
-  factory CoalfrontTileType.fromByte(int b) => CoalfrontTileType.values[b];
+  factory TileType.fromByte(int b) => TileType.values[b];
   @pragma("vm:prefer-inline")
   int toByte() => index;
 }

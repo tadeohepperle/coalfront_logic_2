@@ -27,4 +27,9 @@ class GameManagerLogger implements IGameManagerLogger {
     print(userId);
     print(gameEvent);
   }
+
+  @override
+  void close() {
+    print("--- Close Game ---");
+  }
 }

@@ -29,7 +29,7 @@ class PlayerJoined extends GameEvent {
 ////////////////////////////////////////////////////////////////////////////////
 
 /// sent to all other players to notify them that the player left
-class PlayerLeft {
+class PlayerLeft extends GameEvent {
   UserId userId;
   PlayerLeft({
     required this.userId,
@@ -41,14 +41,20 @@ class PlayerLeft {
 ////////////////////////////////////////////////////////////////////////////////
 
 /// when the owner ends/deletes the game. Sent to all other players to notify them.
-class GameWasEnded {}
+class GameWasEnded extends GameEvent {
+  /// by this player (owner)
+  UserId userId;
+  GameWasEnded({
+    required this.userId,
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// DraftPick
 ////////////////////////////////////////////////////////////////////////////////
 
 /// sent to all players
-class DraftPickDone {
+class DraftPickDone extends GameEvent {
   /// Usecase: the players get notified who has done their picks yet / the last pick leads to transition to PlayPhase
   GamePhaseView gamePhaseView;
   UserId userId;

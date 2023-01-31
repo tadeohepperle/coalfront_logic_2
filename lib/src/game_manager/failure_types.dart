@@ -8,6 +8,16 @@ class UnknownFailure extends PlayerActionFailure {
   String? message;
   UnknownFailure([this.message]);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Generic
+////////////////////////////////////////////////////////////////////////////////
+
+/// only players that are part of the game can send in any actions
+class PlayerActionFailureNotPartOfThisGame extends PlayerActionFailure {}
+
+class PlayerActionFailureWasNotJoined extends LeaveFailure {}
+
 ////////////////////////////////////////////////////////////////////////////////
 /// Join
 ////////////////////////////////////////////////////////////////////////////////
@@ -17,16 +27,12 @@ abstract class JoinFailure extends PlayerActionFailure {}
 
 class JoinFailureAlreadyInSession extends JoinFailure {}
 
-class JoinFailureNotPartOfThisGame extends JoinFailure {}
-
 ////////////////////////////////////////////////////////////////////////////////
 /// Leave
 ////////////////////////////////////////////////////////////////////////////////
 
 /// dart3 sealed
 abstract class LeaveFailure extends PlayerActionFailure {}
-
-class LeaveFailureWasNotJoined extends LeaveFailure {}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// EndGame
@@ -44,7 +50,11 @@ class EndGameFailureNotTheOwner extends EndGameFailure {}
 /// dart3 sealed
 abstract class DraftPickFailure extends PlayerActionFailure {}
 
+class DraftPickFailurePhaseIsNotDraftPhase extends DraftPickFailure {}
+
 class DraftPickFailureCardNotInPicks extends DraftPickFailure {}
+
+class DraftPickFailurePickAlreadyMade extends DraftPickFailure {}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// PassTurn

@@ -1,7 +1,7 @@
 import 'package:coalfront_logic_2/src/models/game_state/game_phase.dart';
 
 import '../common/ids.dart';
-import '../game_state/ingame/coalfront_card_instance.dart';
+import '../game_state/ingame/card_instance.dart';
 
 /// sealed
 abstract class GamePhaseView {
@@ -61,7 +61,7 @@ abstract class TurnPhaseView {}
 class EventPhaseView extends TurnPhaseView {}
 
 class DraftPhaseView extends TurnPhaseView {
-  List<CoalfrontCardInstance> pickOptions;
+  List<CardInstanceId> pickOptions;
   CardInstanceId? pickMade;
   DraftPhaseView({
     required this.pickOptions,

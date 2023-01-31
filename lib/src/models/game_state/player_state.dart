@@ -1,16 +1,14 @@
 import 'package:coalfront_logic_2/src/models/common/game_creation_config.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_card.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_card_instance.dart';
 
 import '../common/ids.dart';
-import 'ingame/coalfront_resource_bundle.dart';
+import 'ingame/ingame_resource_bundle.dart';
 
 /// resources and hand cards, lots of private information
 class PlayerState {
   int winPoints;
-  CoalfrontResourceBundle earningEveryTurn;
-  CoalfrontResourceBundle stillAvailableThisTurn;
-  List<CoalfrontCardInstance> handCards;
+  IngameResourceBundle earningEveryTurn;
+  IngameResourceBundle stillAvailableThisTurn;
+  List<CardInstanceId> handCards;
   PlayerState._({
     required this.earningEveryTurn,
     required this.stillAvailableThisTurn,
@@ -19,9 +17,9 @@ class PlayerState {
   });
 
   factory PlayerState.initial() => PlayerState._(
-        earningEveryTurn: CoalfrontResourceBundle.initialFromJustBaseBuilding(),
+        earningEveryTurn: IngameResourceBundle.initialFromJustBaseBuilding(),
         stillAvailableThisTurn:
-            CoalfrontResourceBundle.initialFromJustBaseBuilding(),
+            IngameResourceBundle.initialFromJustBaseBuilding(),
         handCards: [],
         winPoints: 0,
       );
@@ -39,7 +37,7 @@ class PlayerStates {
     final states = Map.fromEntries(
       config.players.map(
         (e) => MapEntry(
-          e.userId,
+          e.id,
           PlayerState.initial(),
         ),
       ),

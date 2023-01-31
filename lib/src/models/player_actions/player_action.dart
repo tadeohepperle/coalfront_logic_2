@@ -1,7 +1,7 @@
 import 'package:coalfront_logic_2/src/models/common/ids.dart';
 import 'package:coalfront_logic_2/src/models/common/int2.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_card.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_card_instance.dart';
+import 'package:coalfront_logic_2/src/models/game_state/ingame/card.dart';
+import 'package:coalfront_logic_2/src/models/game_state/ingame/card_instance.dart';
 
 import '../common/rotation_steps.dart';
 
@@ -58,12 +58,12 @@ abstract class MakePlay extends PlayerAction {}
 class BuildBuilding extends MakePlay {
   @override
   UserId player;
-  BuildingCardInstance cardInstance;
+  CardInstanceId cardInstanceId;
   Int2 position;
   RotationSteps totation;
   BuildBuilding({
     required this.player,
-    required this.cardInstance,
+    required this.cardInstanceId,
     required this.position,
     required this.totation,
   });
@@ -72,10 +72,10 @@ class BuildBuilding extends MakePlay {
 class CastSpell extends MakePlay {
   @override
   UserId player;
-  SpellCardInstance cardInstance;
+  CardInstanceId cardInstanceId;
   CastSpell({
     required this.player,
-    required this.cardInstance,
+    required this.cardInstanceId,
   });
 
   /// todo: targets, etc...

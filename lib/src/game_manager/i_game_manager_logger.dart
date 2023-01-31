@@ -9,4 +9,7 @@ abstract class IGameManagerLogger {
   void logActionFailure(PlayerActionFailure playerActionFailure);
 
   void logGameEventSent(UserId userId, GameEvent gameEvent);
+
+  /// indicates end of logging session
+  void close();
 }
