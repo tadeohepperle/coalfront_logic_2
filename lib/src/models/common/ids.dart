@@ -4,6 +4,10 @@ typedef CardId = String;
 
 typedef CardInstanceId = String;
 
+typedef HapId = String;
+
+typedef HapInstanceId = String;
+
 typedef BuildingId = String;
 
 typedef GameId = String;

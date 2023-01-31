@@ -14,23 +14,33 @@ class CoalfrontBuilding {
 }
 
 /// sealed
-abstract class CoalfrontBuildingType {}
+abstract class CoalfrontBuildingType {
+  int get viewRange;
+  UserId? get owner;
+}
 
 class CoalfrontCardBuilding extends CoalfrontBuildingType {
-  UserId userId;
+  @override
+  UserId owner;
   CoalfrontCardInstance cardInstance;
   bool isActive;
+  @override
+  int viewRange;
   CoalfrontCardBuilding({
-    required this.userId,
+    required this.owner,
     required this.cardInstance,
     this.isActive = true,
+    this.viewRange = 3,
   });
 }
 
 /// the players initial base
 class CoalfrontBaseBuilding extends CoalfrontBuildingType {
-  UserId userId;
+  @override
+  int get viewRange => 5;
+  @override
+  UserId owner;
   CoalfrontBaseBuilding({
-    required this.userId,
+    required this.owner,
   });
 }

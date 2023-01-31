@@ -1,27 +1,35 @@
-import '../../common/ids.dart';
-import 'coalfront_cost.dart';
+import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_resource_bundle.dart';
 
-class CoalfrontCard {
+import '../../common/ids.dart';
+
+class CoalfrontCard<C extends CoalfrontCardTypeProperties> {
   CardId cardId;
   String name;
-  CoalfrontCost cost;
+  CoalfrontResourceBundle cost;
+  C properties;
   CoalfrontCard({
     required this.cardId,
     required this.name,
     required this.cost,
+    required this.properties,
   });
 }
 
-/// sealed
-abstract class CoalfrontCardtype {}
+typedef BuildingCard = CoalfrontCard<BuildingCardProperties>;
+typedef SpellCard = CoalfrontCard<SpellCardProperties>;
 
-class BuildingCard extends CoalfrontCardtype {
-  CoalfrontCost turnCost;
-  CoalfrontCost turnEarning;
-  BuildingCard({
+/// sealed
+abstract class CoalfrontCardTypeProperties {}
+
+class BuildingCardProperties extends CoalfrontCardTypeProperties {
+  CoalfrontResourceBundle turnCost;
+  CoalfrontResourceBundle turnEarning;
+  BuildingCardProperties({
     required this.turnCost,
     required this.turnEarning,
   });
 }
 
-class SpellCard extends CoalfrontCardtype {}
+class SpellCardProperties extends CoalfrontCardTypeProperties {
+  // effect todo
+}

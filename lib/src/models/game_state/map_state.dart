@@ -1,33 +1,45 @@
 import 'dart:typed_data';
 
 import 'package:coalfront_logic_2/src/models/common/ids.dart';
-import 'package:coalfront_logic_2/src/models/game_state/game_state.dart';
-import 'package:coalfront_logic_2/src/models/common/user.dart';
 import 'package:coalfront_logic_2/src/models/game_state/ingame/coalfront_tile_type.dart';
-import 'package:coalfront_logic_2/src/models/player_actions/i_viewable.dart';
-import 'package:dartz/dartz.dart';
 
 import '../common/game_creation_config.dart';
 import '../common/int2.dart';
 import 'ingame/coalfront_building.dart';
 
-class MapState implements IViewable<MapStateView, Unit> {
+class MapState {
   Int2 mapSize;
   Int8List tiles;
   List<CoalfrontBuilding> buildings;
-  MapState._({
+  MapState({
     required this.mapSize,
     required this.tiles,
     required this.buildings,
   });
 
-  @pragma("vm:prefer-inline")
-  CoalfrontTileType operator [](Int2 position) =>
-      tileAt(position.x, position.y);
+  factory MapState.unknown(
+    Int2 mapSize,
+  ) {
+    return MapState(
+        mapSize: mapSize,
+        tiles: Int8List(mapSize.x * mapSize.y),
+        buildings: []);
+  }
 
   @pragma("vm:prefer-inline")
-  CoalfrontTileType tileAt(int x, int y) =>
-      CoalfrontTileType.fromByte(tiles[y * mapSize.x + x]);
+  CoalfrontTileType operator [](Int2 position) =>
+      CoalfrontTileType.fromByte(byteAt(position));
+
+  @pragma("vm:prefer-inline")
+  void operator []=(Int2 position, CoalfrontTileType value) =>
+      setByteAt(position, value.toByte());
+
+  @pragma("vm:prefer-inline")
+  int byteAt(Int2 position) => tiles[position.y * mapSize.x + position.x];
+
+  @pragma("vm:prefer-inline")
+  void setByteAt(Int2 position, int value) =>
+      tiles[position.y * mapSize.x + position.x] = value;
 
   factory MapState.initialFromConfig(GameCreationConfig config) {
     final mapSize = config.mapSize;
@@ -49,11 +61,11 @@ class MapState implements IViewable<MapStateView, Unit> {
       final baseBuilding = CoalfrontBuilding(
         buildingId: generateUniqueId(),
         positions: basePositions[i],
-        buildingType: CoalfrontBaseBuilding(userId: player.userId),
+        buildingType: CoalfrontBaseBuilding(owner: player.userId),
       );
     }
 
-    return MapState._(buildings: [], tiles: tiles, mapSize: mapSize);
+    return MapState(buildings: [], tiles: tiles, mapSize: mapSize);
   }
 
   static List<List<Int2>> generatePlayerBasePositions(
@@ -99,12 +111,4 @@ class MapState implements IViewable<MapStateView, Unit> {
       },
     ).toList();
   }
-
-  @override
-  MapStateView getView(GameStateUnmodifyable gameState, User user) {
-    // TODO: implement getView
-    throw UnimplementedError();
-  }
 }
-
-class MapStateView extends PublicView<Unit> {}

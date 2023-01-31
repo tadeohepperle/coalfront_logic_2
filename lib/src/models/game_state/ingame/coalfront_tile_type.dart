@@ -4,7 +4,8 @@ enum CoalfrontTileType {
   forest,
   water,
   sand,
-  mountain;
+  mountain,
+  outOfMap;
 
   @pragma("vm:prefer-inline")
   factory CoalfrontTileType.fromByte(int b) => CoalfrontTileType.values[b];

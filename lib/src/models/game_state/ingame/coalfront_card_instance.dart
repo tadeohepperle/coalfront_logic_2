@@ -1,8 +1,11 @@
 import '../../common/ids.dart';
 import 'coalfront_card.dart';
 
-class CoalfrontCardInstance {
+class CoalfrontCardInstance<C extends CoalfrontCardTypeProperties> {
   CardInstanceId cardInstanceId;
-  CoalfrontCard card;
+  CoalfrontCard<C> card;
   CoalfrontCardInstance({required this.cardInstanceId, required this.card});
 }
+
+typedef BuildingCardInstance = CoalfrontCardInstance<BuildingCardProperties>;
+typedef SpellCardInstance = CoalfrontCardInstance<SpellCardProperties>;
