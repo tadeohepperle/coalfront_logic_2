@@ -13,9 +13,7 @@ abstract class GamePhaseView {
       final turnPhase = gamePhase.turnPhase;
 
       /// dart3 switch pattern
-      if (turnPhase is EventPhase) {
-        return RunningPhaseView(EventPhaseView());
-      } else if (turnPhase is DraftPhase) {
+      if (turnPhase is DraftPhase) {
         final pickOptions = turnPhase.pickOptions[userId]!;
         final pickMade = turnPhase.picksMade[userId];
         return RunningPhaseView(
@@ -58,7 +56,8 @@ class OverPhaseView extends GamePhaseView {
 /// sealed
 abstract class TurnPhaseView {}
 
-class EventPhaseView extends TurnPhaseView {}
+// future: out of scope
+// class EventPhaseView extends TurnPhaseView {}
 
 class DraftPhaseView extends TurnPhaseView {
   List<CardInstanceId> pickOptions;

@@ -1,18 +1,20 @@
-import 'package:coalfront_logic_2/src/models/common/ids.dart';
-import 'package:coalfront_logic_2/src/models/game_state/indexable_resource.dart';
+// future: out of scope
 
-/// Start-Of-Turn Events. Hap is according to https://www.merriam-webster.com/thesaurus/hap a synonym of event
+// import 'package:coalfront_logic_2/src/models/common/ids.dart';
+// import 'package:coalfront_logic_2/src/models/game_state/indexable_resource.dart';
 
-class Hap implements IndexableResource<HapId> {
-  int delay;
-  @override
-  HapId id;
-  String name;
-  Hap({
-    required this.delay,
-    required this.name,
-    required this.id,
-  });
+// /// Start-Of-Turn Events. Hap is according to https://www.merriam-webster.com/thesaurus/hap a synonym of event
 
-  /// todo: effect
-}
+// class Hap implements IndexableResource<HapId> {
+//   int delay;
+//   @override
+//   HapId id;
+//   String name;
+//   Hap({
+//     required this.delay,
+//     required this.name,
+//     required this.id,
+//   });
+
+//   /// todo: effect
+// }

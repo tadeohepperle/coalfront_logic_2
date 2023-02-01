@@ -13,17 +13,19 @@ import 'functions/functions.dart';
 import 'ingame/building.dart';
 
 class IdIndexStructure implements IResourcesIndex {
-  final Map<HapId, Hap> _haps;
-  final Map<HapInstanceId, HapInstance> _hapInstances;
+  // future: out of scope
+  // final Map<HapId, Hap> _haps;
+  // final Map<HapInstanceId, HapInstance> _hapInstances;
   final Map<CardId, Card> _cards;
   final Map<CardInstanceId, CardInstance> _cardInstances;
   final Map<BuildingId, Building> _buildings;
   final Map<UserId, User> _users;
 
-  Iterable<Hap> get haps => _haps.values;
-  Iterable<HapId> get hapIds => _haps.keys;
-  Iterable<HapInstance> get hapInstances => _hapInstances.values;
-  Iterable<HapInstanceId> get hapInstanceIds => _hapInstances.keys;
+  // future: out of scope
+  // Iterable<Hap> get haps => _haps.values;
+  // Iterable<HapId> get hapIds => _haps.keys;
+  // Iterable<HapInstance> get hapInstances => _hapInstances.values;
+  // Iterable<HapInstanceId> get hapInstanceIds => _hapInstances.keys;
   Iterable<Card> get cards => _cards.values;
   Iterable<CardId> get cardIds => _cards.keys;
   Iterable<CardInstance> get cardInstances => _cardInstances.values;
@@ -34,14 +36,15 @@ class IdIndexStructure implements IResourcesIndex {
   Iterable<UserId> get userIds => _users.keys;
 
   IdIndexStructure({
-    required Map<HapId, Hap> haps,
-    required Map<HapInstanceId, HapInstance> hapInstances,
+    // required Map<HapId, Hap> haps,
+    // required Map<HapInstanceId, HapInstance> hapInstances,
     required Map<CardId, Card> cards,
     required Map<CardInstanceId, CardInstance> cardInstances,
     required Map<BuildingId, Building> buildings,
     required Map<UserId, User> users,
-  })  : _haps = haps,
-        _hapInstances = hapInstances,
+  })  :
+        // _haps = haps,
+        // _hapInstances = hapInstances,
         _cards = cards,
         _cardInstances = cardInstances,
         _buildings = buildings,
@@ -49,8 +52,8 @@ class IdIndexStructure implements IResourcesIndex {
 
   IdIndexStructure copyWithBuildings(Iterable<Building> buildings) {
     return IdIndexStructure(
-        haps: _haps,
-        hapInstances: _hapInstances,
+        // haps: _haps,
+        // hapInstances: _hapInstances,
         cards: _cards,
         cardInstances: _cardInstances,
         buildings: createIndex(buildings),
@@ -58,11 +61,10 @@ class IdIndexStructure implements IResourcesIndex {
   }
 
   factory IdIndexStructure.testIndexFromConfig(GameCreationConfig config) {
-    // todo:
-    // generate 10 test haps:
-    final Hap testHap = Hap(name: "Hap 1", delay: 2, id: "hap1");
-    final hapInstances =
-        List.generate(13, (i) => HapInstance(id: "$i", hap: testHap));
+    // future: out of scope
+    // final Hap testHap = Hap(name: "Hap 1", delay: 2, id: "hap1");
+    // final hapInstances =
+    //     List.generate(13, (i) => HapInstance(id: "$i", hap: testHap));
     final Card testBuildingCard = Card(
       id: "testbuilding",
       name: "Test Building",
@@ -100,8 +102,8 @@ class IdIndexStructure implements IResourcesIndex {
     }
 
     return IdIndexStructure(
-      haps: createIndex([testHap]),
-      hapInstances: createIndex(hapInstances),
+      // haps: createIndex([testHap]),
+      // hapInstances: createIndex(hapInstances),
       cards: createIndex([testBuildingCard, testSpellCard]),
       cardInstances: createIndex(cardInstances),
       buildings: createIndex(baseBuildings),
@@ -113,11 +115,7 @@ class IdIndexStructure implements IResourcesIndex {
   @override
   T resolve<T extends IndexableResource<N>, N>(N id) {
     /// dart3 switch pattern and make IndexableResource sealed
-    if (T is Hap) {
-      return _haps[id]! as T;
-    } else if (T is HapInstance) {
-      return _hapInstances[id]! as T;
-    } else if (T is Card) {
+    if (T is Card) {
       return _cards[id]! as T;
     } else if (T is CardInstance) {
       return _cardInstances[id]! as T;

@@ -8,12 +8,14 @@ import 'package:coalfront_logic_2/src/models/common/ids.dart';
 import 'package:coalfront_logic_2/src/models/game_events/game_phase_view.dart';
 import 'package:coalfront_logic_2/src/models/game_events/join_initial_data_load.dart';
 import 'package:coalfront_logic_2/src/models/game_state/game_phase.dart';
+import 'package:coalfront_logic_2/src/models/game_state/library_state.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:coalfront_logic_2/src/models/player_actions/player_action.dart';
 
 import 'package:coalfront_logic_2/src/game_manager/failure_types.dart';
 
+import '../constants.dart';
 import '../models/common/game_creation_config.dart';
 import '../models/game_state/game_state.dart';
 import 'i_game_manager.dart';
@@ -84,7 +86,8 @@ class GameManager implements IGameManager {
     } else {
       gameState.sessionState.playersJoined.add(thisPlayer);
       if (gameState.gamePhase is BeginningPhase && _allPlayersJoined) {
-        gameState.gamePhase = RunningPhase.initial();
+        final draftPhaseCreated = getNewDraftPhaseFromLibrary();
+        gameState.gamePhase = RunningPhase(draftPhaseCreated);
       }
       _sendToPlayer(
         thisPlayer,
@@ -186,6 +189,28 @@ class GameManager implements IGameManager {
   }
 
   ////////////////////////////////////////////////////////////////////////////////
+  // Mutating State Functions
+  ////////////////////////////////////////////////////////////////////////////////
+
+  /// mutates the library!!
+  DraftPhase getNewDraftPhaseFromLibrary() {
+    final int totalCardsNeeded = userIds.length * DRAFT_PICK_OPTION_COUNT;
+    final libraryCardCount = gameState.libraryState.cardCount;
+    if (totalCardsNeeded > libraryCardCount) {
+      throw Exception(
+          "Error: Library does not have enough cards ($totalCardsNeeded needed, $libraryCardCount left)");
+    }
+    final List<CardInstanceId> allPickOptions =
+        gameState.libraryState.popTop(totalCardsNeeded);
+    allPickOptions.shuffle();
+
+    final pickOptionsPerPlayer = userIds.map((userId) =>
+        MapEntry(userId, allPickOptions.popTop(DRAFT_PICK_OPTION_COUNT)));
+    return DraftPhase(
+        pickOptions: Map.fromEntries(pickOptionsPerPlayer), picksMade: {});
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   ////////////////////////////////////////////////////////////////////////////////
 
@@ -232,6 +257,8 @@ class GameManager implements IGameManager {
       _allPlayers.every((u) => _joinedPlayers.contains(u.id));
 
   bool _isOwner(UserId userId) => gameState.sessionState.owner == userId;
+
+  Iterable<UserId> get userIds => gameState.indexStructure.userIds;
 
   void _endGameCleanUp() {
     _eventsController.close();

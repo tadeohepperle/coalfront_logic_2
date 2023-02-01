@@ -11,8 +11,6 @@ class RunningPhase extends GamePhase {
   final TurnPhase turnPhase;
 
   RunningPhase(this.turnPhase);
-
-  factory RunningPhase.initial() => RunningPhase(TurnPhase.initial());
 }
 
 /// where the game is over and a winner is determined
@@ -26,12 +24,10 @@ class OverPhase extends GamePhase {
 }
 
 /// sealed
-abstract class TurnPhase {
-  static TurnPhase initial() => EventPhase();
-}
+abstract class TurnPhase {}
 
-/// todo: add event card
-class EventPhase extends TurnPhase {}
+// future: out of scope, add event cards
+// class EventPhase extends TurnPhase {}
 
 class DraftPhase extends TurnPhase {
   Map<UserId, List<CardInstanceId>> pickOptions;
