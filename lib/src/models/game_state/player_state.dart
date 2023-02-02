@@ -6,20 +6,19 @@ import 'ingame/ingame_resource_bundle.dart';
 /// resources and hand cards, lots of private information
 class PlayerState {
   int winPoints;
-  IngameResourceBundle earningEveryTurn;
-  IngameResourceBundle stillAvailableThisTurn;
+  IngameResourceBundle netProduction;
+  IngameResourceBundle resourcesLeft;
   List<CardInstanceId> handCards;
   PlayerState._({
-    required this.earningEveryTurn,
-    required this.stillAvailableThisTurn,
+    required this.netProduction,
+    required this.resourcesLeft,
     required this.handCards,
     required this.winPoints,
   });
 
   factory PlayerState.initial() => PlayerState._(
-        earningEveryTurn: IngameResourceBundle.initialFromJustBaseBuilding(),
-        stillAvailableThisTurn:
-            IngameResourceBundle.initialFromJustBaseBuilding(),
+        netProduction: IngameResourceBundle(),
+        resourcesLeft: IngameResourceBundle(),
         handCards: [],
         winPoints: 0,
       );

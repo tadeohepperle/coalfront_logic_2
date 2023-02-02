@@ -1,10 +1,11 @@
 import 'package:coalfront_logic_2/src/models/game_state/indexable_resource.dart';
 import 'package:coalfront_logic_2/src/models/game_state/ingame/ingame_resource_bundle.dart';
+import 'package:coalfront_logic_2/src/models/game_state/ingame/tile_type.dart';
 
 import '../../common/ids.dart';
+import '../../common/int2.dart';
 
-class Card<C extends CoalfrontCardTypeProperties>
-    implements IndexableResource<CardId> {
+class Card<C extends CardTypeProperties> implements IndexableResource<CardId> {
   @override
   CardId id;
   String name;
@@ -22,17 +23,20 @@ typedef BuildingCard = Card<BuildingCardProperties>;
 typedef SpellCard = Card<SpellCardProperties>;
 
 /// sealed
-abstract class CoalfrontCardTypeProperties {}
+abstract class CardTypeProperties {}
 
-class BuildingCardProperties extends CoalfrontCardTypeProperties {
-  IngameResourceBundle turnCost;
-  IngameResourceBundle turnEarning;
+class BuildingCardProperties extends CardTypeProperties {
+  /// production - consumption
+  IngameResourceBundle netProduction;
+  List<TileType> suitableTiles;
+  List<Int2> relativePositions;
   BuildingCardProperties({
-    required this.turnCost,
-    required this.turnEarning,
+    required this.netProduction,
+    required this.suitableTiles,
+    this.relativePositions = const [Int2(0, 0)],
   });
 }
 
-class SpellCardProperties extends CoalfrontCardTypeProperties {
+class SpellCardProperties extends CardTypeProperties {
   // effect todo
 }

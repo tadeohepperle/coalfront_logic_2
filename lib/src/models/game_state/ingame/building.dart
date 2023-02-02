@@ -1,14 +1,14 @@
+import 'package:coalfront_logic_2/src/models/game_state/game_state.dart';
 import 'package:coalfront_logic_2/src/models/game_state/indexable_resource.dart';
 
 import '../../common/ids.dart';
 import '../../common/int2.dart';
-import 'card_instance.dart';
 
 class Building extends IndexableResource<BuildingId> {
   @override
   BuildingId id;
   List<Int2> positions;
-  CoalfrontBuildingType buildingType;
+  BuildingType buildingType;
   Building({
     required this.id,
     required this.positions,
@@ -17,19 +17,19 @@ class Building extends IndexableResource<BuildingId> {
 }
 
 /// sealed
-abstract class CoalfrontBuildingType {
+abstract class BuildingType {
   int get viewRange;
   UserId? get owner;
 }
 
-class CoalfrontCardBuilding extends CoalfrontBuildingType {
+class CardBuilding extends BuildingType {
   @override
   UserId owner;
   CardInstanceId cardInstanceId;
   bool isActive;
   @override
   int viewRange;
-  CoalfrontCardBuilding({
+  CardBuilding({
     required this.owner,
     required this.cardInstanceId,
     this.isActive = true,
@@ -38,12 +38,12 @@ class CoalfrontCardBuilding extends CoalfrontBuildingType {
 }
 
 /// the players initial base
-class CoalfrontBaseBuilding extends CoalfrontBuildingType {
+class BaseBuilding extends BuildingType {
   @override
   int get viewRange => 5;
   @override
   UserId owner;
-  CoalfrontBaseBuilding({
+  BaseBuilding({
     required this.owner,
   });
 }

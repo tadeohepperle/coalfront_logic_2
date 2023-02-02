@@ -1,8 +1,5 @@
 import 'package:coalfront_logic_2/src/models/common/ids.dart';
 import 'package:coalfront_logic_2/src/models/common/int2.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/card.dart';
-import 'package:coalfront_logic_2/src/models/game_state/ingame/card_instance.dart';
-
 import '../common/rotation_steps.dart';
 
 /// sealed
@@ -47,40 +44,46 @@ class DraftPick extends PlayerAction {
 class PassTurn extends PlayerAction {
   @override
   UserId player;
+
+  /// if endTurn = false the player just passes initiative to the next player, but can play at a later point in this playPhase
+  /// if endTurn = true the player has committed to not play anything anymore this turn.
+  bool endTurn;
   PassTurn({
     required this.player,
+    required this.endTurn,
   });
 }
 
-/// sealed
-abstract class MakePlay extends PlayerAction {}
-
-class BuildBuilding extends MakePlay {
+class BuildBuilding extends PlayerAction {
   @override
   UserId player;
   CardInstanceId cardInstanceId;
   Int2 position;
-  RotationSteps totation;
+  RotationSteps rotation;
+  BuildingId buildingId;
   BuildBuilding({
     required this.player,
     required this.cardInstanceId,
     required this.position,
-    required this.totation,
+    required this.rotation,
+    required this.buildingId,
   });
 }
 
-class CastSpell extends MakePlay {
-  @override
-  UserId player;
-  CardInstanceId cardInstanceId;
-  CastSpell({
-    required this.player,
-    required this.cardInstanceId,
-  });
 
-  /// todo: targets, etc...
-  ///
-}
+/// todo: out of scope
+// class CastSpell extends PlayerAction {
+//   @override
+//   UserId player;
+//   CardInstanceId cardInstanceId;
+//   CastSpell({
+//     required this.player,
+//     required this.cardInstanceId,
+//   });
+
+//   /// todo: targets, etc...
+//   ///
+// }
 
 /// todo: future: activated abilities
 /// class ActivateAbility extends MakePlay

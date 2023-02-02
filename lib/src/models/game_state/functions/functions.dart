@@ -1,4 +1,11 @@
+import 'package:coalfront_logic_2/src/models/game_state/i_resources_index.dart';
+
+import '../../../constants.dart';
+import '../../common/ids.dart';
 import '../../common/int2.dart';
+import '../ingame/building.dart';
+import '../ingame/card_instance.dart';
+import '../ingame/ingame_resource_bundle.dart';
 
 List<List<Int2>> generatePlayerBasePositions(int numPlayers, Int2 mapSize) {
   List<Vec2> points(int numPlayers) {
@@ -41,4 +48,28 @@ List<List<Int2>> generatePlayerBasePositions(int numPlayers, Int2 mapSize) {
       return bp;
     },
   ).toList();
+}
+
+extension NextWithLooping<T> on List<T> {
+  T nextWithLooping(T element) {
+    var i = indexOf(element) + 1;
+    if (i == -1) {
+      throw Exception(
+          "nextWithLooping() cannot find element $element in List $this");
+    }
+    return i == length ? this[0] : this[i];
+  }
+}
+
+IngameResourceBundle netProductionOfBuilding(
+    Building building, IResourcesIndex indexStructure) {
+  final buildingType = building.buildingType;
+  if (buildingType is CardBuilding) {
+    final cardInstance = indexStructure.resolve<CardInstance, CardInstanceId>(
+        buildingType.cardInstanceId) as BuildingCardInstance;
+    return cardInstance.card.properties.netProduction;
+  } else if (buildingType is BaseBuilding) {
+    return BASE_NET_PRODUCTION;
+  }
+  throw "dart3 exhaustive check";
 }

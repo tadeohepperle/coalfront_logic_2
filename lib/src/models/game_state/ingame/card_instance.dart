@@ -2,7 +2,7 @@ import '../../common/ids.dart';
 import '../indexable_resource.dart';
 import 'card.dart';
 
-class CardInstance<C extends CoalfrontCardTypeProperties>
+class CardInstance<C extends CardTypeProperties>
     implements IndexableResource<CardInstanceId> {
   @override
   CardInstanceId id;

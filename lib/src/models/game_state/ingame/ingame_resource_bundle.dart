@@ -1,7 +1,7 @@
 import 'package:coalfront_logic_2/src/models/game_state/ingame/ingame_resource.dart';
 
 class IngameResourceBundle {
-  Map<IngameResource, int> resources;
+  Map<IngameResource, int> _resources;
 
   IngameResourceBundle({
     int? wood,
@@ -11,7 +11,7 @@ class IngameResourceBundle {
     int? stone,
     int? coal,
     int? gold,
-  }) : resources = {
+  }) : _resources = {
           IngameResource.wood: wood ?? 0,
           IngameResource.people: people ?? 0,
           IngameResource.food: food ?? 0,
@@ -21,8 +21,27 @@ class IngameResourceBundle {
           IngameResource.gold: gold ?? 0,
         };
 
-  int operator [](IngameResource index) => resources[index]!;
+  int operator [](IngameResource index) => _resources[index]!;
 
-  factory IngameResourceBundle.initialFromJustBaseBuilding() =>
-      IngameResourceBundle(people: 3, wood: 3, food: 3, wool: 2);
+  void operator []=(IngameResource index, int value) =>
+      _resources[index] = value;
+
+  bool contains(IngameResourceBundle other) =>
+      IngameResource.values.every((v) => this[v] >= other[v]);
+
+  IngameResourceBundle operator +(IngameResourceBundle other) {
+    final result = IngameResourceBundle();
+    for (final v in IngameResource.values) {
+      result[v] = this[v] + other[v];
+    }
+    return result;
+  }
+
+  IngameResourceBundle operator -(IngameResourceBundle other) {
+    final result = IngameResourceBundle();
+    for (final v in IngameResource.values) {
+      result[v] = this[v] - other[v];
+    }
+    return result;
+  }
 }

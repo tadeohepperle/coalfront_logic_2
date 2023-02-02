@@ -16,7 +16,10 @@ class UnknownFailure extends PlayerActionFailure {
 /// only players that are part of the game can send in any actions
 class PlayerActionFailureNotPartOfThisGame extends PlayerActionFailure {}
 
-class PlayerActionFailureWasNotJoined extends LeaveFailure {}
+class PlayerActionFailureWasNotJoined extends PlayerActionFailure {}
+
+class PlayerActionFailureWrongPhase extends PlayerActionFailure
+    implements DraftPickFailure, MakePlayFailure, PassTurnFailure {}
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Join
@@ -50,8 +53,6 @@ class EndGameFailureNotTheOwner extends EndGameFailure {}
 /// dart3 sealed
 abstract class DraftPickFailure extends PlayerActionFailure {}
 
-class DraftPickFailurePhaseIsNotDraftPhase extends DraftPickFailure {}
-
 class DraftPickFailureCardNotInPicks extends DraftPickFailure {}
 
 class DraftPickFailurePickAlreadyMade extends DraftPickFailure {}
@@ -62,6 +63,12 @@ class DraftPickFailurePickAlreadyMade extends DraftPickFailure {}
 
 /// dart3 sealed
 abstract class PassTurnFailure extends PlayerActionFailure {}
+
+class PlayerActionFailureAlreadyEndedTurn extends PlayerActionFailure
+    implements PassTurnFailure, MakePlayFailure {}
+
+class PlayerActionFailureNotPlayersTurn extends PlayerActionFailure
+    implements PassTurnFailure, MakePlayFailure {}
 
 /// it should be possible to pass the turn even if it's not your go right now??
 /// Is premoved for when it's your turn???
@@ -80,13 +87,16 @@ abstract class MakePlayFailure extends PlayerActionFailure {}
 /// dart3 sealed
 abstract class BuildBuildingFailure extends MakePlayFailure {}
 
-abstract class BuildBuildingFailureCannotPayCost extends BuildBuildingFailure {}
+class BuildBuildingFailureCannotPayCost extends BuildBuildingFailure {}
 
-abstract class BuildBuildingFailureSpaceOccupied extends BuildBuildingFailure {}
+class BuildBuildingFailureSpaceOccupied extends BuildBuildingFailure {}
+
+// Building Ids are created on the client and sent to the server
+class BuildBuildingFailureIdCollision extends BuildBuildingFailure {}
 
 /// dart3 sealed
 abstract class CastSpellFailure extends MakePlayFailure {}
 
-abstract class CastSpellFailureCannotPayCost extends CastSpellFailure {}
+class CastSpellFailureCannotPayCost extends CastSpellFailure {}
 
-abstract class CastSpellFailureInvalidTargets extends CastSpellFailure {}
+class CastSpellFailureInvalidTargets extends CastSpellFailure {}

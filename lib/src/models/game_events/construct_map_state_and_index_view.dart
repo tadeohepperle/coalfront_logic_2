@@ -1,9 +1,11 @@
+import 'package:coalfront_logic_2/src/models/common/rotation_steps.dart';
 import 'package:coalfront_logic_2/src/models/game_state/game_state.dart';
 import 'package:coalfront_logic_2/src/models/game_state/id_index_structure.dart';
 import 'package:coalfront_logic_2/src/models/game_state/map_state.dart';
 import 'package:dartz/dartz.dart';
 
 import '../common/ids.dart';
+import '../common/int2.dart';
 import '../game_state/ingame/building.dart';
 
 /// for now, no private view type needed, because MapStateView and MapState have the same fields.
@@ -39,11 +41,17 @@ Tuple2<MapStateView, IdIndexStructure> constructMapStateAndIndexView(
     }
   }
 
-  final visibleBuildings =
-      nonPlayerBuildingsVisible.followedBy(playerBuildings);
+  // put buildings in indexStructure and mark as occupied on map (happens in registerBuilding function):
 
   final IdIndexStructure indexStructureView =
-      indexStructure.copyWithBuildings(visibleBuildings);
+      IdIndexStructure.fromOtherWithoutBuildings(gameState.indexStructure);
 
+  for (final b in nonPlayerBuildingsVisible.followedBy(playerBuildings)) {
+    indexStructureView.insert(b);
+  }
   return Tuple2(mapStateView, indexStructureView);
 }
+
+List<Int2> positionRotationAndRelativePositionsToWorldPositions(
+        Int2 position, RotationSteps rotation, List<Int2> relativePositions) =>
+    relativePositions.map((e) => e.rotateAround0(rotation) + position).toList();

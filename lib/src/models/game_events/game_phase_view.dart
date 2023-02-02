@@ -14,10 +14,9 @@ abstract class GamePhaseView {
 
       /// dart3 switch pattern
       if (turnPhase is DraftPhase) {
-        final pickOptions = turnPhase.pickOptions[userId]!;
-        final pickMade = turnPhase.picksMade[userId];
         return RunningPhaseView(
-            DraftPhaseView(pickOptions: pickOptions, pickMade: pickMade));
+          DraftPhaseView.fromDraftPhase(turnPhase, userId),
+        );
       } else if (turnPhase is PlayPhase) {
         return RunningPhaseView(PlayPhaseView(
           activePlayer: turnPhase.activePlayer,
@@ -60,9 +59,37 @@ abstract class TurnPhaseView {}
 // class EventPhaseView extends TurnPhaseView {}
 
 class DraftPhaseView extends TurnPhaseView {
+  final List<UserId> playOrder;
+  final int finalTotalRounds;
+  final List<DraftRoundView> draftRounds;
+  DraftPhaseView({
+    required this.playOrder,
+    required this.finalTotalRounds,
+    required this.draftRounds,
+  });
+
+  factory DraftPhaseView.fromDraftPhase(DraftPhase draftPhase, UserId userId) {
+    final draftRounds = draftPhase.draftRounds
+        .map((round) => DraftRoundView(
+            roundNumber: round.roundNumber,
+            pickOptions: round.pickOptions[userId]!,
+            pickMade: round.picksMade[userId]))
+        .toList();
+    return DraftPhaseView(
+      playOrder: draftPhase.playOrder,
+      finalTotalRounds: draftPhase.finalTotalRounds,
+      draftRounds: draftRounds,
+    );
+  }
+}
+
+class DraftRoundView {
+  final int
+      roundNumber; // 1 = first round with 3 cards, 2 = seconds round with 2 cards, ...
   List<CardInstanceId> pickOptions;
   CardInstanceId? pickMade;
-  DraftPhaseView({
+  DraftRoundView({
+    required this.roundNumber,
     required this.pickOptions,
     required this.pickMade,
   });
